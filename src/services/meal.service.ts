@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { CreateMealDto } from './meal.dto';
-import { Meal, MealDocument } from './meal.schema';
+import { CreateMealDto } from '../dto/create-meal.dto';
+import { Meal, MealDocument } from '../schemas/meal.schema';
 
 @Injectable()
 export class MealService {
