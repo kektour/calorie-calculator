@@ -12,9 +12,7 @@ export class DayEntryController {
   constructor(private readonly dayEntryService: DayEntryService) {}
 
   @Post()
-  public create(
-    @Body() createDayEntryDto: CreateDayEntryDto,
-  ): Promise<DayEntry> {
+  public create(@Body() createDayEntryDto: CreateDayEntryDto): Promise<DayEntry> {
     return this.dayEntryService.create(createDayEntryDto);
   }
 
@@ -32,9 +30,7 @@ export class DayEntryController {
   }
 
   @Get(':dayEntryId')
-  public findAllMeals(
-    @Param('dayEntryId') dayEntryId: string,
-  ): Promise<FoundAllMealsByDayEntry> {
+  public findAllMeals(@Param('dayEntryId') dayEntryId: string): Promise<FoundAllMealsByDayEntry> {
     return this.dayEntryService.findAllMeals(dayEntryId);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
@@ -18,10 +18,8 @@ import { PfcService } from './pfc.service';
 @Injectable()
 export class DayEntryService {
   constructor(
-    @InjectModel(DayEntry.name)
-    private readonly dayEntryModel: Model<DayEntryDocument>,
-    @InjectModel(DayEntryMeal.name)
-    private readonly dayEntryMealModel: Model<DayEntryMealDocument>,
+    @InjectModel(DayEntry.name) private readonly dayEntryModel: Model<DayEntryDocument>,
+    @InjectModel(DayEntryMeal.name) private readonly dayEntryMealModel: Model<DayEntryMealDocument>,
     private readonly pfcService: PfcService,
   ) {}
 
@@ -34,10 +32,7 @@ export class DayEntryService {
     return this.dayEntryModel.find().exec();
   }
 
-  public createMeal(
-    dayEntryId: string,
-    createDayEntryMealDto: CreateDayEntryMealDto,
-  ) {
+  public createMeal(dayEntryId: string, createDayEntryMealDto: CreateDayEntryMealDto) {
     const { mealId, weight } = createDayEntryMealDto;
     const createdDayEntryMeal = new this.dayEntryMealModel({
       weight,
@@ -47,9 +42,7 @@ export class DayEntryService {
     return createdDayEntryMeal.save();
   }
 
-  public async findAllMeals(
-    dayEntryId: string,
-  ): Promise<FoundAllMealsByDayEntry> {
+  public async findAllMeals(dayEntryId: string): Promise<FoundAllMealsByDayEntry> {
     const [dayEntry, dayEntryMeals] = await Promise.all([
       this.dayEntryModel.findById(dayEntryId),
       this.dayEntryMealModel
@@ -62,18 +55,9 @@ export class DayEntryService {
       dayEntryMeals.map((dayEntryMeal) => ({
         title: dayEntryMeal.meal.title,
         weight: dayEntryMeal.weight,
-        proteins: this.pfcService.calcByWeight(
-          dayEntryMeal.meal.proteins,
-          dayEntryMeal.weight,
-        ),
-        fats: this.pfcService.calcByWeight(
-          dayEntryMeal.meal.fats,
-          dayEntryMeal.weight,
-        ),
-        carbohydrates: this.pfcService.calcByWeight(
-          dayEntryMeal.meal.carbohydrates,
-          dayEntryMeal.weight,
-        ),
+        proteins: this.pfcService.calcByWeight(dayEntryMeal.meal.proteins, dayEntryMeal.weight,),
+        fats: this.pfcService.calcByWeight(dayEntryMeal.meal.fats, dayEntryMeal.weight),
+        carbohydrates: this.pfcService.calcByWeight(dayEntryMeal.meal.carbohydrates, dayEntryMeal.weight,),
       }));
 
     return {
