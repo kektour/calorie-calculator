@@ -1,7 +1,7 @@
-import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
+import { Box, Container, Typography } from '@mui/material';
 
-export const ErrorPage: React.FC = () => {
+const ErrorPage: React.FC = () => {
   return (
     <Container>
       <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
@@ -13,3 +13,5 @@ export const ErrorPage: React.FC = () => {
     </Container>
   );
 };
+
+export default ErrorPage;
